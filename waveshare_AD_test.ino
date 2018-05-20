@@ -45,8 +45,8 @@ void loop() {
   int rawValue = analogRead(A0);
   // Convert the raw data value (0 - 1023) to voltage (0.0V - 5.0V):
   float voltage = rawValue * (5.0 / 1024.0);
-  // write the voltage value to the serial monitor, if not 5.0:
-  int keyNum = getKey(voltage);
+  int keyNum = getKey(voltage); // get the number of the key, based on voltage
+  // filter/debounce: Only one output per key press
   // If the switch changed, due to noise or pressing:
   if (keyNum != lastButtonNum) {
     // reset the debouncing timer
@@ -59,9 +59,9 @@ void loop() {
     // if the button state has changed:
     if (keyNum != buttonNum) {
       buttonNum = keyNum;
-      // only toggle the LED if the new button state is a valid button
+      // only output the button number if the new button number is for a valid button
       if (buttonNum != -1) {
-        ardprintf("Key: %d", keyNum);
+        ardprintf("Key: %d", keyNum); // write the button value to the serial monitor, if not -1:
         // ardprintf("Voltage: %f\tKey: %d", voltage, keyNum);
       }
     }
